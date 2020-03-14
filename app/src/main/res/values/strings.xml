@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Projet Android Salomé et Sixitne</string>
+    <string name="ajout_competition">Ajouter un match</string>
+    <string name="bad_follow_up">Bad\' Follow Up</string>
+    <string name="sauvegarde">Sauvegarde</string>
+    <string name="chat">Chat</string>
+    <string name="addTitle">Ajouter un match</string>
+    <string name="adresseText">Adresse du match</string>
+    <string name="dateText">Date</string>
+    <string name="joueur1">Joueur 1</string>
+    <string name="joueur2">Joueur 2</string>
+    <string name="valider">Valider</string>
+    <string name="prendrePhoto">Prendre une photo</string>
+    <string-array name="spinner">
+        <item>Type de match</item>
+        <item>Régional</item>
+        <item>National</item>
+        <item>International</item>
+    </string-array>
+</resources>

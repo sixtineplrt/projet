@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        android:background="#5EA5CDD6"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:layout_width="117dp"
+            android:layout_height="54dp"
+            android:layout_gravity="right"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/francais"
+                android:layout_width="50dip"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom|end"
+                android:layout_marginTop="@dimen/mt_fr"
+                android:layout_marginRight="@dimen/mr_fr"
+                app:srcCompat="@drawable/fr" />
+
+            <ImageView
+                android:id="@+id/anglais"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom|end"
+                android:layout_marginTop="@dimen/mt_fr"
+                android:layout_marginRight="@dimen/mr_fr"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/en" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="276dp"
+            android:layout_height="151dp"
+            android:layout_gravity="center"
+            android:translationY="@dimen/image"
+            app:srcCompat="@drawable/volant" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="clip_horizontal|center|center_horizontal"
+            android:text="@string/bad_follow_up"
+            android:textSize="36sp"
+            android:translationY="@dimen/test"
+            app:fontFamily="casual" />
+
+        <Button
+            android:id="@+id/add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/ajout_competition"
+            android:translationY="@dimen/add"
+            android:onClick="SecondActivity" />
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/sauvegarde"
+            android:translationY="@dimen/save"
+            android:onClick="ThirdActivity" />
+
+        <Button
+            android:id="@+id/chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/chat"
+            android:translationY="@dimen/chat"
+            android:onClick="FourthActivity" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="730dp"
+        android:layout_height="412dp"
+        android:background="#5EA5CDD6"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="-4dp">
+
+        <LinearLayout
+            android:layout_width="117dp"
+            android:layout_height="54dp"
+            android:layout_gravity="right"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/francais"
+                android:layout_width="50dip"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom|right"
+                android:layout_marginTop="@dimen/mt_fr"
+                android:layout_marginRight="@dimen/mr_fr"
+                app:srcCompat="@drawable/fr" />
+
+            <ImageView
+                android:id="@+id/anglais"
+                android:layout_width="50dip"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom|right"
+                android:layout_marginTop="@dimen/mt_fr"
+                android:layout_marginRight="@dimen/mr_fr"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/en" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="50"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="163dp"
+                    android:layout_height="95dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="50sp"
+                    app:srcCompat="@drawable/volant" />
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="60sp"
+                    android:text="@string/bad_follow_up"
+                    android:textSize="36sp"
+                    app:fontFamily="casual" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="50"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="60sp"
+                    android:onClick="SecondActivity"
+                    android:text="@string/ajout_competition" />
+
+                <Button
+                    android:id="@+id/save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20sp"
+                    android:onClick="ThirdActivity"
+                    android:text="@string/sauvegarde" />
+
+                <Button
+                    android:id="@+id/chat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20sp"
+                    android:onClick="FourthActivity"
+                    android:text="@string/chat" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

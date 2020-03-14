@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="test">160dip</dimen>
+    <dimen name="add">200dip</dimen>
+    <dimen name="save">210dip</dimen>
+    <dimen name="chat">220dip</dimen>
+    <dimen name="image">130dip</dimen>
+    <dimen name="mr_fr">10dip</dimen>
+    <dimen name="mt_fr">10dip</dimen>
+</resources>
