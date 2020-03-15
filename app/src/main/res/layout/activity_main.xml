@@ -19,6 +19,7 @@
             android:layout_width="117dp"
             android:layout_height="54dp"
             android:layout_gravity="right"
+            android:layout_marginRight="@dimen/mr_fr"
             android:orientation="horizontal">
 
             <ImageView
