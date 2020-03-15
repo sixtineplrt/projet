@@ -3,10 +3,17 @@
     package="fr.android.projet_polart_masbernat">
     <!-- Permet la connexion à internet -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- Permission d'accès à l'appareil photo -->
-    <uses-permission android:name="android.permission.CAMERA"></uses-permission>
-    <uses-feature android:name="android.hardware.camera"/>
-    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <!-- Permission pour écrire dans un fichier -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-feature
+        android:name="android.hardware.camera.any"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+
+
 
     <application
         android:allowBackup="true"
@@ -33,13 +40,12 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="$(applicationId).provider"
+            android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
-
         </provider>
 
     </application>
