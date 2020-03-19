@@ -7,10 +7,13 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Button sauvegarde;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +24,15 @@ public class MainActivity extends AppCompatActivity {
         changeLocale(this.getResources(), locale);
 
         setContentView(R.layout.activity_main);
+
+        sauvegarde = (Button)findViewById(R.id.save);
+        sauvegarde.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, fr.android.projet_polart_masbernat.ThirdActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     /**

@@ -14,8 +14,10 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,6 +34,11 @@ public class SecondActivity extends AppCompatActivity {
     private Spinner spinner;
     private ImageView imgAffichePhoto;
     private Button btnPrendrePhoto;
+    private Button valider;
+    private EditText joueur1;
+    DatabaseHelper mDatabaseHelper;
+
+    private static final String TAG = "SecondActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +54,27 @@ public class SecondActivity extends AppCompatActivity {
         //Appliquer l'adapter au spinner
         spinner.setAdapter(adapter);
 
+        mDatabaseHelper = new DatabaseHelper(this);
+
         initActivity();
+    }
+
+    public void addData(String newEntry){
+        boolean insertData = mDatabaseHelper.addData(newEntry);
+
+        if(insertData){
+            toastMessage("Data Successfuly Import");
+        }else {
+            toastMessage("Something went wrong");
+        }
+    }
+
+    /**
+     * Notification toast customisable
+     * @param message
+     */
+    private void toastMessage( String message){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -58,18 +85,33 @@ public class SecondActivity extends AppCompatActivity {
         btnPrendrePhoto = (Button)findViewById(R.id.boutonPrendrePhoto);
         imgAffichePhoto = (ImageView)findViewById(R.id.image);
 
+        joueur1 = (EditText)findViewById(R.id.nom1);
+        valider = (Button)findViewById(R.id.valider);
+
         //méthode pour gérer les évenements
-        createOnClickBtnPrendrePhoto();
+        createOnClickBtn();
     }
 
     /**
      * évenement clic sur le bouton pour prendre la photo
      */
-    private void createOnClickBtnPrendrePhoto(){
+    private void createOnClickBtn(){
         btnPrendrePhoto.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 prendreUnePhoto();
+            }
+        });
+        valider.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String newEntry = joueur1.getText().toString();
+                if(joueur1.length() != 0){
+                    addData(newEntry);
+                    joueur1.setText("");
+                }else{
+                    toastMessage("VEUILLEZ RENSEIGNER UN JOUEUR 1");
+                }
             }
         });
     }
