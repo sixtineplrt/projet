@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 
@@ -15,18 +16,31 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*//english
-        setAppLocale("en");
-        setContentView(R.layout.activity_main);*/
+        String locale = new String(Locale.getDefault().getDisplayLanguage());
 
-        String language= "fr";
-        Locale locale = new Locale(language);
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale= locale;
-        getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
+        changeLocale(this.getResources(), locale);
 
         setContentView(R.layout.activity_main);
+    }
+
+    /**
+     * Gestion de la langue
+     * @param res
+     * @param locale
+     */
+    public static void changeLocale(Resources res, String locale){
+        Configuration config;
+        config = new Configuration(res.getConfiguration());
+
+        switch (locale) {
+            case "fr":
+                config.locale = Locale.FRANCE;
+                break;
+            case "en":
+                config.locale = Locale.ENGLISH;
+                break;
+        }
+        res.updateConfiguration(config, res.getDisplayMetrics());
     }
 
     //Lancer la seconde activité
