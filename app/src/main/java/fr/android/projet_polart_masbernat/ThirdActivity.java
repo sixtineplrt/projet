@@ -10,14 +10,21 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ThirdActivity extends AppCompatActivity {
 
     private static final String TAG = "ListDataActivity";
-    DatabaseHelper mDatabaseHelper;
     private ListView mListView;
+    DatabaseHelper mDatabaseHelper;
+    NewMatch match;
+
+    String j1;
+    String j2;
+    String adresse;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,14 +40,25 @@ public class ThirdActivity extends AppCompatActivity {
 
         // Récupérer les données et les mettre dans une liste
         Cursor data = mDatabaseHelper.getData();
-        ArrayList<String> listData = new ArrayList<>();
+        ArrayList<NewMatch> listData = new ArrayList<NewMatch>();
+        ArrayList<String> listTest = new ArrayList<>();
+
         while(data.moveToNext()){
-            // Récupérer les valeurs dasns la bdd de la colonne 1 et l'ajouter à l'arrylist
-            listData.add(data.getString(1));
+            // Récupérer les valeurs dans la bdd
+            j1 = data.getString(1);
+            j2 = data.getString(2);
+            adresse = data.getString(3);
+
+            match = new NewMatch(j1, j2, adresse);
+
+            // Ajouter à l'arrylist
+            listData.add(match);
+            listTest.add(j1);
         }
         // Créer la liste adapter et set l'adapter
-        ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
-        mListView.setAdapter(adapter);
+        ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listTest);
+        ListAdapter matchAdapter = new MatchAdapter(this, listData);
+        mListView.setAdapter(matchAdapter);
     }
 
     private void toastMessage(String message){

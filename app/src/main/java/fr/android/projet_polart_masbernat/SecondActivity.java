@@ -35,8 +35,14 @@ public class SecondActivity extends AppCompatActivity {
     private ImageView imgAffichePhoto;
     private Button btnPrendrePhoto;
     private Button valider;
+
+    // Valeurs à récupérer
     private EditText joueur1;
+    private EditText joueur2;
+    private EditText adresse;
+
     DatabaseHelper mDatabaseHelper;
+    NewMatch match;
 
     private static final String TAG = "SecondActivity";
 
@@ -59,24 +65,6 @@ public class SecondActivity extends AppCompatActivity {
         initActivity();
     }
 
-    public void addData(String newEntry){
-        boolean insertData = mDatabaseHelper.addData(newEntry);
-
-        if(insertData){
-            toastMessage("Data Successfuly Import");
-        }else {
-            toastMessage("Something went wrong");
-        }
-    }
-
-    /**
-     * Notification toast customisable
-     * @param message
-     */
-    private void toastMessage( String message){
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
     /**
      * initialiation de l'activity
      */
@@ -86,6 +74,9 @@ public class SecondActivity extends AppCompatActivity {
         imgAffichePhoto = (ImageView)findViewById(R.id.image);
 
         joueur1 = (EditText)findViewById(R.id.nom1);
+        joueur2 = (EditText) findViewById(R.id.nom2);
+        adresse = (EditText) findViewById(R.id.adresse);
+
         valider = (Button)findViewById(R.id.valider);
 
         //méthode pour gérer les évenements
@@ -105,16 +96,44 @@ public class SecondActivity extends AppCompatActivity {
         valider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String newEntry = joueur1.getText().toString();
-                if(joueur1.length() != 0){
-                    addData(newEntry);
-                    joueur1.setText("");
+
+                String name1 = joueur1.getText().toString();
+                String name2 = joueur2.getText().toString();
+                String ad = adresse.getText().toString();
+
+                if((joueur1.length() != 0) && (joueur2.length() != 0) && (adresse.length() != 0)){
+                    match = new NewMatch(name1, name2, ad);
+                    addData(match);
+
+                    joueur1.setText("joueur 1");
+                    joueur2.setText("joueur 2");
+                    adresse.setText("Adresse");
                 }else{
-                    toastMessage("VEUILLEZ RENSEIGNER UN JOUEUR 1");
+                    toastMessage("Un champ est vide");
                 }
             }
         });
     }
+
+    public void addData(NewMatch match){
+        boolean insertData = mDatabaseHelper.addData(match);
+
+        if(insertData){
+            toastMessage("Data Successfuly Import");
+        }else {
+            toastMessage("Something went wrong");
+        }
+    }
+
+    /**
+     * Notification toast customisable
+     * @param message
+     */
+    private void toastMessage( String message){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+
 
     /**
      * accès à l'appareil photo et mémorise dans un fichier temporaire
