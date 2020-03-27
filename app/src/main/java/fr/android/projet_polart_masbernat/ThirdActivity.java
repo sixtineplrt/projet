@@ -50,9 +50,9 @@ public class ThirdActivity extends AppCompatActivity {
             j1 = data.getString(1);
             j2 = data.getString(2);
             adresse = data.getString(3);
-            //date = data.getString(4);
+            date = data.getString(4);
 
-            match = new NewMatch(j1, j2, adresse);
+            match = new NewMatch(j1, j2, adresse, date);
 
             // Ajouter à l'arrylist
             listData.add(match);

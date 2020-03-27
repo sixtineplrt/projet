@@ -35,15 +35,12 @@ public class MatchAdapter extends ArrayAdapter<NewMatch> {
         TextView joueur1 = (TextView) convertView.findViewById(R.id.joueur1);
         TextView joueur2 = (TextView) convertView.findViewById(R.id.joueur2);
         TextView adresse = (TextView) convertView.findViewById(R.id.adresse);
-        //EditText dateView = (EditText) convertView.findViewById(R.id.date);
-        Log.d(TAG, "j1: " + match.joueur1);
-        Log.d(TAG, "j2: " + match.joueur2);
-        Log.d(TAG, "adresse: " + match.adresse);
+        TextView dateView = (TextView) convertView.findViewById(R.id.date);
 
         joueur1.setText(match.joueur1);
         joueur2.setText(match.joueur2);
         adresse.setText(match.adresse);
-        //dateView.setText(match.date);
+        dateView.setText(match.date);
 
         return convertView;
     }

@@ -53,6 +53,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    /**
+     * Add data à la bdd
+     * @param match
+     * @return
+     */
     public boolean addData(NewMatch match){
         Log.d(TAG, db.toString());
         ContentValues contentValues = new ContentValues();
@@ -84,6 +89,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery(query, null);
     }
 
+    /**
+     * Afficher la bdd
+     * @return
+     */
     // TODO Remove before prod
     public String getTableAsString() {
         Log.d(TAG, "getTableAsString called");
