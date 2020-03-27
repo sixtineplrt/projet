@@ -8,22 +8,44 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteTableLockedException;
 import android.util.Log;
 
+import java.util.Date;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String TAG = "DatabaseHelper";
-
+    private static final String DABASE_NAME = "myMatches";
     private static final String TABLE_NAME = "match_table";
+    private SQLiteDatabase db;
+
+    //Colonnes de la table
     private static final String COL1 = "ID";
-    private static final String COL2 = "joueur1";
+    private static final String COL2 = "Joueur1";
+    private static final String COL3 = "Joueur2";
+    private static final String COL4 = "Adresse";
+    private static final String COL5 = "Date";
+    private static final String COL6 = "Type";
+    private static final String COL7 = "Image";
 
     public DatabaseHelper(Context context){
-        super(context, TABLE_NAME, null ,1);
+        super(context, DABASE_NAME, null ,1);
+        db = this.getWritableDatabase();
+        onCreate(db);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTable = "CREATE TABLE " + TABLE_NAME + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, " + COL2 + " TEXT)";
-        db.execSQL(createTable);
+        try {
+            String createTable = "CREATE TABLE " + TABLE_NAME + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + COL2 + " TEXT, "
+                    + COL3 + " TEXT, "
+                    + COL4 + " TEXT, "
+                    + COL5 + " TEXT, "
+                    + COL6 + " TEXT, "
+                    + COL7 + " TEXT) ";
+            db.execSQL(createTable);
+        } catch (Exception e) {
+            // do nothing
+        }
     }
 
     @Override
@@ -32,14 +54,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean addData(String item){
-        SQLiteDatabase db = this.getWritableDatabase();
+    /**
+     * Add data à la bdd
+     * @param match
+     * @return
+     */
+    public boolean addData(NewMatch match){
+        Log.d(TAG, db.toString());
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL2, item);
 
-        Log.d(TAG, "addData Adding " + item + " to " + TABLE_NAME);
+        contentValues.put(COL2, match.getJoueur1());
+        contentValues.put(COL3, match.getJoueur2());
+        contentValues.put(COL4, match.getAdresse());
+        contentValues.put(COL5, match.getDate());
+        contentValues.put(COL6, match.getType());
+        contentValues.put(COL7, match.getImageLink());
+
+        Log.d(TAG, "Adding data to " + TABLE_NAME);
 
         long result = db.insert(TABLE_NAME, null, contentValues);
+
+        Log.d(TAG, this.getTableAsString());
 
         if(result == -1){
             return false;
@@ -49,14 +84,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Retourne les infos de la database
+     * Retourne les 5 derniers matchs de la database
      * @return
      */
-    public Cursor getData(){
-        SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_NAME;
-        Cursor data = db.rawQuery(query, null);
-        return data;
+    public Cursor getLastFiveData(){
+        String query = "select * from " + TABLE_NAME + " order by ID desc limit 5";
+        return db.rawQuery(query, null);
     }
 
+    /**
+     * Afficher la bdd
+     * @return
+     */
+    // TODO Remove before prod
+    public String getTableAsString() {
+        Log.d(TAG, "getTableAsString called");
+        String tableString = String.format("Table %s:\n", TABLE_NAME);
+        Cursor allRows  = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        if (allRows.moveToFirst() ){
+            String[] columnNames = allRows.getColumnNames();
+            do {
+                for (String name: columnNames) {
+                    tableString += String.format("%s: %s\n", name,
+                            allRows.getString(allRows.getColumnIndex(name)));
+                }
+                tableString += "\n";
+
+            } while (allRows.moveToNext());
+        }
+        return tableString;
+    }
 }

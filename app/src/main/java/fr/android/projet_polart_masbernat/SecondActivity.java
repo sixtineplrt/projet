@@ -4,24 +4,32 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class SecondActivity extends AppCompatActivity {
@@ -35,8 +43,16 @@ public class SecondActivity extends AppCompatActivity {
     private ImageView imgAffichePhoto;
     private Button btnPrendrePhoto;
     private Button valider;
+
+    // Valeurs à récupérer
     private EditText joueur1;
+    private EditText joueur2;
+    private EditText adresse;
+    private TextView mDisplayDate;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+
     DatabaseHelper mDatabaseHelper;
+    NewMatch match;
 
     private static final String TAG = "SecondActivity";
 
@@ -54,13 +70,107 @@ public class SecondActivity extends AppCompatActivity {
         //Appliquer l'adapter au spinner
         spinner.setAdapter(adapter);
 
-        mDatabaseHelper = new DatabaseHelper(this);
-
         initActivity();
     }
 
-    public void addData(String newEntry){
-        boolean insertData = mDatabaseHelper.addData(newEntry);
+    /**
+     * initialiation de l'activity
+     */
+    private void initActivity(){
+
+        mDatabaseHelper = new DatabaseHelper(this);
+
+        //on récupère les objetcs graphiques
+        btnPrendrePhoto = (Button)findViewById(R.id.boutonPrendrePhoto);
+        imgAffichePhoto = (ImageView)findViewById(R.id.image);
+
+        joueur1 = (EditText)findViewById(R.id.nom1);
+        joueur2 = (EditText) findViewById(R.id.nom2);
+        adresse = (EditText) findViewById(R.id.adresse);
+        mDisplayDate = (TextView) findViewById(R.id.date);
+
+        valider = (Button)findViewById(R.id.valider);
+
+        //méthode pour gérer les évenements
+        createOnClickBtn();
+    }
+
+    /**
+     * évenement clic sur le bouton pour prendre la photo
+     */
+    private void createOnClickBtn(){
+
+        btnPrendrePhoto.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                prendreUnePhoto();
+            }
+        });
+
+        valider.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String name1 = joueur1.getText().toString();
+                String name2 = joueur2.getText().toString();
+                String ad = adresse.getText().toString();
+                String date = mDisplayDate.getText().toString();
+                String type = spinner.getSelectedItem().toString();
+
+                if((joueur1.length() != 0)
+                        && (joueur2.length() != 0)
+                        && (adresse.length() != 0)
+                        && (date != "Date")
+                        && (type != "Type de match")
+                        && (photoPath != null)){
+
+                    match = new NewMatch(name1, name2, ad, date, type, photoPath);
+                    addData(match);
+
+                }else{
+                    toastMessage("Un champ est vide");
+                }
+            }
+        });
+
+        /**
+         * Selectionner une date quand on clique dessus
+         */
+        mDisplayDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        SecondActivity.this,
+                        android.R.style.Theme_Holo_Dialog_NoActionBar_MinWidth,
+                        mDateSetListener,
+                        year, month, day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener(){
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day){
+                month = month + 1;
+                Log.d(TAG, "onDateSet: mm/dd/yyyy: " + day + "/" + month + "/" + year);
+                String date = day + "/" + month + "/" + year;
+                mDisplayDate.setText(date);
+            }
+        };
+    }
+
+    /**
+     * Tester et executer l'insertion des infos dans la bdd
+     * @param match
+     */
+    public void addData(NewMatch match){
+        boolean insertData = mDatabaseHelper.addData(match);
 
         if(insertData){
             toastMessage("Data Successfuly Import");
@@ -77,44 +187,7 @@ public class SecondActivity extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    /**
-     * initialiation de l'activity
-     */
-    private void initActivity(){
-        //on récupère les objetcs graphiques
-        btnPrendrePhoto = (Button)findViewById(R.id.boutonPrendrePhoto);
-        imgAffichePhoto = (ImageView)findViewById(R.id.image);
 
-        joueur1 = (EditText)findViewById(R.id.nom1);
-        valider = (Button)findViewById(R.id.valider);
-
-        //méthode pour gérer les évenements
-        createOnClickBtn();
-    }
-
-    /**
-     * évenement clic sur le bouton pour prendre la photo
-     */
-    private void createOnClickBtn(){
-        btnPrendrePhoto.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                prendreUnePhoto();
-            }
-        });
-        valider.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String newEntry = joueur1.getText().toString();
-                if(joueur1.length() != 0){
-                    addData(newEntry);
-                    joueur1.setText("");
-                }else{
-                    toastMessage("VEUILLEZ RENSEIGNER UN JOUEUR 1");
-                }
-            }
-        });
-    }
 
     /**
      * accès à l'appareil photo et mémorise dans un fichier temporaire

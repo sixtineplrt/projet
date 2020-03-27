@@ -10,21 +10,32 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ThirdActivity extends AppCompatActivity {
 
     private static final String TAG = "ListDataActivity";
-    DatabaseHelper mDatabaseHelper;
     private ListView mListView;
+    DatabaseHelper mDatabaseHelper;
+    NewMatch match;
+
+    String j1;
+    String j2;
+    String adresse;
+    String date = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+    String type;
+    String image;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third);
         mListView = (ListView)findViewById(R.id.listView);
         mDatabaseHelper = new DatabaseHelper(this);
-        
         populateListView();
     }
 
@@ -32,15 +43,28 @@ public class ThirdActivity extends AppCompatActivity {
         Log.d(TAG, "populateListView: Displaying data in the ListView.");
 
         // Récupérer les données et les mettre dans une liste
-        Cursor data = mDatabaseHelper.getData();
-        ArrayList<String> listData = new ArrayList<>();
+        Cursor data = mDatabaseHelper.getLastFiveData();
+
+        ArrayList<NewMatch> listData = new ArrayList<>();
+
         while(data.moveToNext()){
-            // Récupérer les valeurs dasns la bdd de la colonne 1 et l'ajouter à l'arrylist
-            listData.add(data.getString(1));
+            // Récupérer les valeurs dans la bdd
+            j1 = data.getString(1);
+            j2 = data.getString(2);
+            adresse = data.getString(3);
+            date = data.getString(4);
+            type = data.getString(5);
+            image = data.getString(6);
+
+            match = new NewMatch(j1, j2, adresse, date, type, image);
+
+            // Ajouter à l'arrylist
+            listData.add(match);
         }
+
         // Créer la liste adapter et set l'adapter
-        ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
-        mListView.setAdapter(adapter);
+        ListAdapter matchAdapter = new MatchAdapter(this, listData);
+        mListView.setAdapter(matchAdapter);
     }
 
     private void toastMessage(String message){
