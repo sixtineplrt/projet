@@ -39,8 +39,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     + COL2 + " TEXT, "
                     + COL3 + " TEXT, "
                     + COL4 + " TEXT, "
-                    + COL5 + " TEXT)";
-            //+ COL6 + " TEXT) ";
+                    + COL5 + " TEXT, "
+                    + COL6 + " TEXT, "
+                    + COL7 + " TEXT) ";
             db.execSQL(createTable);
         } catch (Exception e) {
             // do nothing
@@ -66,6 +67,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL3, match.getJoueur2());
         contentValues.put(COL4, match.getAdresse());
         contentValues.put(COL5, match.getDate());
+        contentValues.put(COL6, match.getType());
+        contentValues.put(COL7, match.getImageLink());
 
         Log.d(TAG, "Adding data to " + TABLE_NAME);
 
@@ -81,7 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Retourne les infos de la database
+     * Retourne les 5 derniers matchs de la database
      * @return
      */
     public Cursor getLastFiveData(){

@@ -1,6 +1,9 @@
 package fr.android.projet_polart_masbernat;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -36,11 +40,17 @@ public class MatchAdapter extends ArrayAdapter<NewMatch> {
         TextView joueur2 = (TextView) convertView.findViewById(R.id.joueur2);
         TextView adresse = (TextView) convertView.findViewById(R.id.adresse);
         TextView dateView = (TextView) convertView.findViewById(R.id.date);
+        TextView type = (TextView) convertView.findViewById(R.id.type);
+        ImageView image = (ImageView) convertView.findViewById(R.id.image);
 
         joueur1.setText(match.joueur1);
         joueur2.setText(match.joueur2);
         adresse.setText(match.adresse);
         dateView.setText(match.date);
+        type.setText(match.type);
+
+        Bitmap imageBitmap = BitmapFactory.decodeFile(match.imageLink);
+        image.setImageBitmap(imageBitmap);
 
         return convertView;
     }

@@ -115,20 +115,27 @@ public class SecondActivity extends AppCompatActivity {
                 String name2 = joueur2.getText().toString();
                 String ad = adresse.getText().toString();
                 String date = mDisplayDate.getText().toString();
+                String type = spinner.getSelectedItem().toString();
 
-                if((joueur1.length() != 0) && (joueur2.length() != 0) && (adresse.length() != 0) && (date != "date")){
-                    match = new NewMatch(name1, name2, ad, date);
+                if((joueur1.length() != 0)
+                        && (joueur2.length() != 0)
+                        && (adresse.length() != 0)
+                        && (date != "Date")
+                        && (type != "Type de match")
+                        && (photoPath != null)){
+
+                    match = new NewMatch(name1, name2, ad, date, type, photoPath);
                     addData(match);
 
-                    joueur1.setText("Joueur 1");
-                    joueur2.setText("Joueur 2");
-                    adresse.setText("Adresse du match");
                 }else{
                     toastMessage("Un champ est vide");
                 }
             }
         });
 
+        /**
+         * Selectionner une date quand on clique dessus
+         */
         mDisplayDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,6 +165,10 @@ public class SecondActivity extends AppCompatActivity {
         };
     }
 
+    /**
+     * Tester et executer l'insertion des infos dans la bdd
+     * @param match
+     */
     public void addData(NewMatch match){
         boolean insertData = mDatabaseHelper.addData(match);
 
