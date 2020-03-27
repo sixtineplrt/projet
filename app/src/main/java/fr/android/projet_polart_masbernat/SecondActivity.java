@@ -4,24 +4,32 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class SecondActivity extends AppCompatActivity {
@@ -40,6 +48,8 @@ public class SecondActivity extends AppCompatActivity {
     private EditText joueur1;
     private EditText joueur2;
     private EditText adresse;
+    private TextView mDisplayDate;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
 
     DatabaseHelper mDatabaseHelper;
     NewMatch match;
@@ -60,8 +70,6 @@ public class SecondActivity extends AppCompatActivity {
         //Appliquer l'adapter au spinner
         spinner.setAdapter(adapter);
 
-        mDatabaseHelper = new DatabaseHelper(this);
-
         initActivity();
     }
 
@@ -69,6 +77,9 @@ public class SecondActivity extends AppCompatActivity {
      * initialiation de l'activity
      */
     private void initActivity(){
+
+        mDatabaseHelper = new DatabaseHelper(this);
+
         //on récupère les objetcs graphiques
         btnPrendrePhoto = (Button)findViewById(R.id.boutonPrendrePhoto);
         imgAffichePhoto = (ImageView)findViewById(R.id.image);
@@ -76,6 +87,7 @@ public class SecondActivity extends AppCompatActivity {
         joueur1 = (EditText)findViewById(R.id.nom1);
         joueur2 = (EditText) findViewById(R.id.nom2);
         adresse = (EditText) findViewById(R.id.adresse);
+        mDisplayDate = (TextView) findViewById(R.id.date);
 
         valider = (Button)findViewById(R.id.valider);
 
@@ -87,12 +99,14 @@ public class SecondActivity extends AppCompatActivity {
      * évenement clic sur le bouton pour prendre la photo
      */
     private void createOnClickBtn(){
+
         btnPrendrePhoto.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 prendreUnePhoto();
             }
         });
+
         valider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,19 +114,48 @@ public class SecondActivity extends AppCompatActivity {
                 String name1 = joueur1.getText().toString();
                 String name2 = joueur2.getText().toString();
                 String ad = adresse.getText().toString();
+                String date = mDisplayDate.getText().toString();
 
-                if((joueur1.length() != 0) && (joueur2.length() != 0) && (adresse.length() != 0)){
-                    match = new NewMatch(name1, name2, ad);
+                if((joueur1.length() != 0) && (joueur2.length() != 0) && (adresse.length() != 0) && (date != "date")){
+                    match = new NewMatch(name1, name2, ad, date);
                     addData(match);
 
-                    joueur1.setText("joueur 1");
-                    joueur2.setText("joueur 2");
-                    adresse.setText("Adresse");
+                    joueur1.setText("Joueur 1");
+                    joueur2.setText("Joueur 2");
+                    adresse.setText("Adresse du match");
                 }else{
                     toastMessage("Un champ est vide");
                 }
             }
         });
+
+        mDisplayDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        SecondActivity.this,
+                        android.R.style.Theme_Holo_Dialog_NoActionBar_MinWidth,
+                        mDateSetListener,
+                        year, month, day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener(){
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day){
+                month = month + 1;
+                Log.d(TAG, "onDateSet: mm/dd/yyyy: " + day + "/" + month + "/" + year);
+                String date = day + "/" + month + "/" + year;
+                mDisplayDate.setText(date);
+            }
+        };
     }
 
     public void addData(NewMatch match){
