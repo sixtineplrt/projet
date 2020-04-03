@@ -25,6 +25,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL5 = "Date";
     private static final String COL6 = "Type";
     private static final String COL7 = "Image";
+    private static final String COL8 = "Latitude";
+    private static final String COL9 = "Longitude";
 
     public DatabaseHelper(Context context){
         super(context, DABASE_NAME, null ,1);
@@ -34,6 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         try {
             String createTable = "CREATE TABLE " + TABLE_NAME + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + COL2 + " TEXT, "
@@ -41,7 +44,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     + COL4 + " TEXT, "
                     + COL5 + " TEXT, "
                     + COL6 + " TEXT, "
-                    + COL7 + " TEXT) ";
+                    + COL7 + " TEXT, "
+                    + COL8 + " TEXT, "
+                    + COL9 + " TEXT) ";
             db.execSQL(createTable);
         } catch (Exception e) {
             // do nothing
@@ -69,6 +74,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL5, match.getDate());
         contentValues.put(COL6, match.getType());
         contentValues.put(COL7, match.getImageLink());
+        contentValues.put(COL8, match.getLatitude());
+        contentValues.put(COL9, match.getLongitude());
 
         Log.d(TAG, "Adding data to " + TABLE_NAME);
 

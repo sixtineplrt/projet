@@ -12,16 +12,20 @@ public class NewMatch{
     String date;
     String type;
     String imageLink;
+    String latitude;
+    String longitude;
 
     public NewMatch(){}
 
-    public NewMatch(String j1, String j2, String ad, String d, String t, String link){
+    public NewMatch(String j1, String j2, String ad, String d, String t, String link, String lati, String longi){
         joueur1 = j1;
         joueur2 = j2;
         adresse = ad;
         date = d;
         type = t;
         imageLink = link;
+        latitude = lati;
+        longitude = longi;
     }
 
     public String getJoueur1(){
@@ -44,6 +48,14 @@ public class NewMatch{
 
     public String getType() { return type; }
 
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
     @Override
     public String toString() {
         return "NewMatch{" +
@@ -53,6 +65,8 @@ public class NewMatch{
                 ", date='" + date + '\'' +
                 ", type='" + type + '\'' +
                 ", image='" + imageLink + '\'' +
+                ", latitude='" + latitude + '\'' +
+                ", longitude='" + longitude + '\'' +
                 '}';
     }
 }

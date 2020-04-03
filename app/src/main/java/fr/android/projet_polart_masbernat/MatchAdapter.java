@@ -42,12 +42,16 @@ public class MatchAdapter extends ArrayAdapter<NewMatch> {
         TextView dateView = (TextView) convertView.findViewById(R.id.date);
         TextView type = (TextView) convertView.findViewById(R.id.type);
         ImageView image = (ImageView) convertView.findViewById(R.id.image);
+        TextView latitude = (TextView) convertView.findViewById(R.id.latitude);
+        TextView longitude = (TextView) convertView.findViewById(R.id.longitude);
 
         joueur1.setText(match.joueur1);
         joueur2.setText(match.joueur2);
         adresse.setText(match.adresse);
         dateView.setText(match.date);
         type.setText(match.type);
+        latitude.setText(match.latitude);
+        longitude.setText(match.longitude);
 
         Bitmap imageBitmap = BitmapFactory.decodeFile(match.imageLink);
         image.setImageBitmap(imageBitmap);
