@@ -132,6 +132,8 @@ public class SecondActivity extends AppCompatActivity implements LocationListene
                 String ad = adresse.getText().toString();
                 String date = mDisplayDate.getText().toString();
                 String type = spinner.getSelectedItem().toString();
+                String latitude = latituteField.getText().toString();
+                String longitude = longitudeField.getText().toString();
 
                 if((joueur1.length() != 0)
                         && (joueur2.length() != 0)
@@ -140,7 +142,7 @@ public class SecondActivity extends AppCompatActivity implements LocationListene
                         && (type != "Type de match")
                         && (photoPath != null)){
 
-                    match = new NewMatch(name1, name2, ad, date, type, photoPath);
+                    match = new NewMatch(name1, name2, ad, date, type, photoPath, latitude, longitude);
                     addData(match);
 
                 }else{

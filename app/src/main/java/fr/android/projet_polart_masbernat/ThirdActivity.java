@@ -29,6 +29,8 @@ public class ThirdActivity extends AppCompatActivity {
     String date = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
     String type;
     String image;
+    String latitude;
+    String longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +57,10 @@ public class ThirdActivity extends AppCompatActivity {
             date = data.getString(4);
             type = data.getString(5);
             image = data.getString(6);
+            latitude = data.getString(7);
+            longitude = data.getString(8);
 
-            match = new NewMatch(j1, j2, adresse, date, type, image);
+            match = new NewMatch(j1, j2, adresse, date, type, image, latitude, longitude);
 
             // Ajouter à l'arrylist
             listData.add(match);
