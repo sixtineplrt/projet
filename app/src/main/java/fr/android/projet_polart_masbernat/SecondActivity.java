@@ -61,7 +61,7 @@ public class SecondActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
-        spinner = (Spinner) findViewById(R.id.spinner);
+        initActivity();
 
         //Créer un arrayAdapter
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.spinner, android.R.layout.simple_spinner_item);
@@ -70,7 +70,7 @@ public class SecondActivity extends AppCompatActivity {
         //Appliquer l'adapter au spinner
         spinner.setAdapter(adapter);
 
-        initActivity();
+
     }
 
     /**
@@ -83,12 +83,11 @@ public class SecondActivity extends AppCompatActivity {
         //on récupère les objetcs graphiques
         btnPrendrePhoto = (Button)findViewById(R.id.boutonPrendrePhoto);
         imgAffichePhoto = (ImageView)findViewById(R.id.image);
-
+        spinner = (Spinner) findViewById(R.id.spinner);
         joueur1 = (EditText)findViewById(R.id.nom1);
         joueur2 = (EditText) findViewById(R.id.nom2);
         adresse = (EditText) findViewById(R.id.adresse);
         mDisplayDate = (TextView) findViewById(R.id.date);
-
         valider = (Button)findViewById(R.id.valider);
 
         //méthode pour gérer les évenements
@@ -96,7 +95,7 @@ public class SecondActivity extends AppCompatActivity {
     }
 
     /**
-     * évenement clic sur le bouton pour prendre la photo
+     * Gestion des évenements quand on clique sur un élément
      */
     private void createOnClickBtn(){
 
@@ -188,7 +187,7 @@ public class SecondActivity extends AppCompatActivity {
     }
 
 
-
+    ////////////////////// APPAREIL PHOTO //////////////////////////
     /**
      * accès à l'appareil photo et mémorise dans un fichier temporaire
      */
