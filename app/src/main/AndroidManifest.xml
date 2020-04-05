@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="fr.android.projet_polart_masbernat">
     <!-- Permet la connexion à internet -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -27,10 +28,12 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ThirdActivity"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity"
+            tools:targetApi="jelly_bean" />
         <activity
             android:name=".SecondActivity"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity"
+            tools:targetApi="jelly_bean" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
