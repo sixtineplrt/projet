@@ -3,6 +3,7 @@ package fr.android.projet_polart_masbernat;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +36,7 @@ public class ThirdActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference mReference;
     private NewMatch match;
+    private Context context = this;
 
     private String j1;
     private String j2;
@@ -45,6 +47,7 @@ public class ThirdActivity extends AppCompatActivity {
     private String latitude;
     private String longitude;
     private Button rechercher;
+    private Button fiveLastMatches;
     private EditText recherche;
 
     @Override
@@ -55,24 +58,32 @@ public class ThirdActivity extends AppCompatActivity {
         // On récupère les objets graphiques
         mListView = (ListView)findViewById(R.id.listView);
         rechercher = (Button)findViewById(R.id.rechercher);
+        fiveLastMatches = (Button)findViewById(R.id.fiveLast);
         recherche = (EditText)findViewById(R.id.recherche);
         // BDD locale
         mDatabaseHelper = new DatabaseHelper(this);
         // BBD externe
         database = FirebaseDatabase.getInstance();
 
+        OnClickButton();
+    }
+
+    private void OnClickButton(){
         rechercher.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 mReference = database.getReference("Matches");
-                final List<NewMatch> matches = new ArrayList<>();
+                //final List<NewMatch> matches = new ArrayList<>();
+                final ArrayList<NewMatch> listData = new ArrayList<>();
+
                 mReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         Map<String,Object> tmp = (Map<String,Object>) dataSnapshot.getValue();
                         for (Map.Entry<String,Object> e : tmp.entrySet()) {
                             Map<String,String> m = (Map<String, String>) e.getValue();
+
                             String index =  m.get("joueur1") +
                                     m.get("joueur2") +
                                     m.get("adresse") +
@@ -80,9 +91,19 @@ public class ThirdActivity extends AppCompatActivity {
                                     m.get("type") +
                                     m.get("latitude") +
                                     m.get("longitude");
+
                             String ref = recherche.getText().toString();
                             if (index.contains(ref)) {
-                                matches.add(new NewMatch(m.get("joueur1"),
+                                /*matches.add(new NewMatch(m.get("joueur1"),
+                                        m.get("joueur2"),
+                                        m.get("adresse"),
+                                        m.get("date"),
+                                        m.get("type"),
+                                        m.get("imageLink"),
+                                        m.get("latitude"),
+                                        m.get("longitude")
+                                ));*/
+                                listData.add(new NewMatch(m.get("joueur1"),
                                         m.get("joueur2"),
                                         m.get("adresse"),
                                         m.get("date"),
@@ -93,7 +114,12 @@ public class ThirdActivity extends AppCompatActivity {
                                 ));
                             }
                         }
-                        Log.d(TAG, "matches = " + matches.size() + " " + matches);
+                        //Log.d(TAG, "matches = " + matches.size() + " " + matches);
+                        Log.d(TAG, "matches = " + listData.size() + " " + listData);
+
+                        // Créer la liste adapter et set l'adapter
+                        ListAdapter matchAdapter = new MatchAdapter(context , listData);
+                        mListView.setAdapter(matchAdapter);
                     }
 
                     @Override
@@ -104,7 +130,12 @@ public class ThirdActivity extends AppCompatActivity {
             }
         });
 
-        populateListView();
+        fiveLastMatches.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                populateListView();
+            }
+        });
     }
 
     private void populateListView() {

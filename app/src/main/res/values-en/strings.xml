@@ -14,4 +14,5 @@
     <string name="addTitle">Add Match</string>
     <string name="type">Type</string>
     <string name="rechercheText">Keyword search</string>
+    <string name="fiveLast">Show last 5 matches</string>
 </resources>

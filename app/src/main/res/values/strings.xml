@@ -12,6 +12,7 @@
     <string name="valider">Valider</string>
     <string name="prendrePhoto">Prendre une photo</string>
     <string name="type">Type</string>
+    <string name="fiveLast">Afficher les 5 derniers matchs</string>
     <string name="rechercheText">Recherche par mot clé</string>
     <string-array name="spinner">
         <item>Type de match</item>

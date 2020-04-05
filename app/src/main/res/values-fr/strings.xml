@@ -14,4 +14,5 @@
     <string name="valider">Valider</string>
     <string name="type">Type</string>
     <string name="rechercheText">Recherche par mot clé</string>
+    <string name="fiveLast">Afficher les 5 derniers matchs</string>
 </resources>
