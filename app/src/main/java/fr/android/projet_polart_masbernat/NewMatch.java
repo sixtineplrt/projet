@@ -1,21 +1,20 @@
 package fr.android.projet_polart_masbernat;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-import android.telephony.mbms.StreamingServiceInfo;
-
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NewMatch{
-    String joueur1;
-    String joueur2;
-    String adresse;
-    String date;
-    String type;
-    String imageLink;
-    String latitude;
-    String longitude;
-
-    public NewMatch(){}
+    private String joueur1;
+    private String joueur2;
+    private String adresse;
+    private String date;
+    private String type;
+    private String imageLink;
+    private String latitude;
+    private String longitude;
 
     public NewMatch(String j1, String j2, String ad, String d, String t, String link, String lati, String longi){
         joueur1 = j1;

@@ -1,16 +1,15 @@
 package fr.android.projet_polart_masbernat;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -34,14 +33,21 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SecondActivity extends AppCompatActivity implements LocationListener {
 
@@ -69,8 +75,9 @@ public class SecondActivity extends AppCompatActivity implements LocationListene
     private String provider;
 
     private DatabaseHelper mDatabaseHelper;
-    private DatabaseReference mDatabase;
     private NewMatch match;
+    private FirebaseDatabase database;
+    private DatabaseReference mReference;
 
     private static final String TAG = "SecondActivity";
 
@@ -97,7 +104,10 @@ public class SecondActivity extends AppCompatActivity implements LocationListene
      */
     private void initActivity(){
 
+        // BBD locale
         mDatabaseHelper = new DatabaseHelper(this);
+        // BBD externe
+        database = FirebaseDatabase.getInstance();
 
         //on récupère les objetcs graphiques
         btnPrendrePhoto = (Button)findViewById(R.id.boutonPrendrePhoto);
@@ -192,11 +202,54 @@ public class SecondActivity extends AppCompatActivity implements LocationListene
      * @param match
      */
     public void addData(NewMatch match){
-        boolean insertData = mDatabaseHelper.addData(match);
+        long matchId = mDatabaseHelper.addData(match);
+        mReference = database.getReference("Matches");
+        mReference.child(String.valueOf(matchId)).setValue(match);
 
-        if(insertData){
+        ///
+        final String ref = "Paris";
+        ///
+        final List<NewMatch> matches = new ArrayList<>();
+        mReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Map<String,Object> tmp = (Map<String,Object>) dataSnapshot.getValue();
+                for (Map.Entry<String,Object> e : tmp.entrySet()) {
+                    Map<String,String> m = (Map<String, String>) e.getValue();
+                    String index =  m.get("joueur1") +
+                            m.get("joueur2") +
+                            m.get("adresse") +
+                            m.get("date") +
+                            m.get("type") +
+                            m.get("latitude") +
+                            m.get("longitude");
+                    if (index.contains(ref)) {
+                        matches.add(new NewMatch(m.get("joueur1"),
+                                m.get("joueur2"),
+                                m.get("adresse"),
+                                m.get("date"),
+                                m.get("type"),
+                                m.get("imageLink"),
+                                m.get("latitude"),
+                                m.get("longitude")
+                        ));
+                    }
+                }
+                Log.d(TAG, "matches = " + matches.size() + " " + matches);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d(TAG, "The read failed: " + databaseError.getCode());
+            }
+        });
+        ///
+
+        Log.d(TAG, "matches = " + matches);
+
+        if (matchId != -1) {
             toastMessage("Data Successfuly Import");
-        }else {
+        } else {
             toastMessage("Something went wrong");
         }
     }
@@ -347,10 +400,5 @@ public class SecondActivity extends AppCompatActivity implements LocationListene
     public void onProviderDisabled(String provider) {
         Toast.makeText(this, "Disabled provider " + provider,
                 Toast.LENGTH_SHORT).show();
-    }
-
-    //////////////// FIREBASE //////////////
-    public void writeMatchFirebase(){
-
     }
 }
