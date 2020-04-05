@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Projet Android Salomé et Sixitne</string>
+    <string name="app_name">Projet Android Salomé et Sixtine</string>
     <string name="dateText">Date</string>
     <string name="chat">Chat</string>
     <string name="bad_follow_up">Bad\' Follow Up</string>
