@@ -51,14 +51,5 @@
             android:translationY="@dimen/save"
             android:onClick="ThirdActivity" />
 
-        <Button
-            android:id="@+id/chat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/chat"
-            android:translationY="@dimen/chat"
-            android:onClick="FourthActivity" />
-
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
