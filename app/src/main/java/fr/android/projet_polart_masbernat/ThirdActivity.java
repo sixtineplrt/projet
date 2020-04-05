@@ -1,43 +1,109 @@
 package fr.android.projet_polart_masbernat;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class ThirdActivity extends AppCompatActivity {
 
     private static final String TAG = "ListDataActivity";
     private ListView mListView;
-    DatabaseHelper mDatabaseHelper;
-    NewMatch match;
+    private DatabaseHelper mDatabaseHelper;
+    private FirebaseDatabase database;
+    private DatabaseReference mReference;
+    private NewMatch match;
 
-    String j1;
-    String j2;
-    String adresse;
-    String date = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
-    String type;
-    String image;
-    String latitude;
-    String longitude;
+    private String j1;
+    private String j2;
+    private String adresse;
+    private String date = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+    private String type;
+    private String image;
+    private String latitude;
+    private String longitude;
+    private Button rechercher;
+    private EditText recherche;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third);
+
+        // On récupère les objets graphiques
         mListView = (ListView)findViewById(R.id.listView);
+        rechercher = (Button)findViewById(R.id.rechercher);
+        recherche = (EditText)findViewById(R.id.recherche);
+        // BDD locale
         mDatabaseHelper = new DatabaseHelper(this);
+        // BBD externe
+        database = FirebaseDatabase.getInstance();
+
+        rechercher.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mReference = database.getReference("Matches");
+                final List<NewMatch> matches = new ArrayList<>();
+                mReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Map<String,Object> tmp = (Map<String,Object>) dataSnapshot.getValue();
+                        for (Map.Entry<String,Object> e : tmp.entrySet()) {
+                            Map<String,String> m = (Map<String, String>) e.getValue();
+                            String index =  m.get("joueur1") +
+                                    m.get("joueur2") +
+                                    m.get("adresse") +
+                                    m.get("date") +
+                                    m.get("type") +
+                                    m.get("latitude") +
+                                    m.get("longitude");
+                            String ref = recherche.getText().toString();
+                            if (index.contains(ref)) {
+                                matches.add(new NewMatch(m.get("joueur1"),
+                                        m.get("joueur2"),
+                                        m.get("adresse"),
+                                        m.get("date"),
+                                        m.get("type"),
+                                        m.get("imageLink"),
+                                        m.get("latitude"),
+                                        m.get("longitude")
+                                ));
+                            }
+                        }
+                        Log.d(TAG, "matches = " + matches.size() + " " + matches);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.d(TAG, "The read failed: " + databaseError.getCode());
+                    }
+                });
+            }
+        });
+
         populateListView();
     }
 

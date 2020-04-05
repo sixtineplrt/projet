@@ -17,7 +17,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20sp"
             android:ems="10"
-            android:text="@string/adresseText" />
+            android:text="@string/rechercheText" />
+
+        <Button
+            android:id="@+id/rechercher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="@string/valider" />
 
         <ListView
             android:id="@+id/listView"

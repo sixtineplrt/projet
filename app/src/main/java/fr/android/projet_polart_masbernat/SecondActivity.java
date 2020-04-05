@@ -206,7 +206,7 @@ public class SecondActivity extends AppCompatActivity implements LocationListene
         mReference = database.getReference("Matches");
         mReference.child(String.valueOf(matchId)).setValue(match);
 
-        ///
+        /*
         final String ref = "Paris";
         ///
         final List<NewMatch> matches = new ArrayList<>();
@@ -243,9 +243,7 @@ public class SecondActivity extends AppCompatActivity implements LocationListene
                 Log.d(TAG, "The read failed: " + databaseError.getCode());
             }
         });
-        ///
-
-        Log.d(TAG, "matches = " + matches);
+        Log.d(TAG, "matches = " + matches);*/
 
         if (matchId != -1) {
             toastMessage("Data Successfuly Import");
