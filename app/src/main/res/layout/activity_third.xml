@@ -9,7 +9,30 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#5EA5CDD6"
         android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/recherche"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:ems="10"
+            android:text="@string/rechercheText" />
+
+        <Button
+            android:id="@+id/rechercher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="@string/valider" />
+
+        <Button
+            android:id="@+id/fiveLast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="@string/fiveLast" />
 
         <ListView
             android:id="@+id/listView"

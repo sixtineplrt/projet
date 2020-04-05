@@ -72,13 +72,4 @@ public class MainActivity extends AppCompatActivity {
         // Création de la nouvelle activité
         startActivity(intent);
     }
-
-    //Lancer la quatrième activité
-    public void FourthActivity(View view){
-        //Creation du intent pour la nouvelle activité (intention de créer une nouvelle activité)
-        Intent intent = new Intent(this, fr.android.projet_polart_masbernat.FourthActivity.class);
-
-        // Création de la nouvelle activité
-        startActivity(intent);
-    }
 }

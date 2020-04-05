@@ -12,4 +12,7 @@
     <string name="prendrePhoto">Prendre une photo</string>
     <string name="sauvegarde">Sauvegarde</string>
     <string name="valider">Valider</string>
+    <string name="type">Type</string>
+    <string name="rechercheText">Recherche par mot clé</string>
+    <string name="fiveLast">Afficher les 5 derniers matchs</string>
 </resources>

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "958721687790",
+    "firebase_url": "https://polart-masbernat.firebaseio.com",
+    "project_id": "polart-masbernat",
+    "storage_bucket": "polart-masbernat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:958721687790:android:ee113dde5c9a74f3f2b3ff",
+        "android_client_info": {
+          "package_name": "fr.android.projet_polart_masbernat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "958721687790-hdqn3ohjmoopatshuut38lc01e0qkb70.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3_3xXqrF6lbGrmwdgAg6CDD0DezsNSl8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "958721687790-hdqn3ohjmoopatshuut38lc01e0qkb70.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

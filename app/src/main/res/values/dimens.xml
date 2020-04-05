@@ -7,4 +7,6 @@
     <dimen name="image">130dip</dimen>
     <dimen name="mr_fr">10dip</dimen>
     <dimen name="mt_fr">10dip</dimen>
+    <dimen name="mt_image">35dip</dimen>
+    <dimen name="mb_image">35dip</dimen>
 </resources>

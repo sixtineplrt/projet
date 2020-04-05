@@ -7,6 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteTableLockedException;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Date;
 
@@ -60,12 +64,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Add data à la bdd
+     * Add data à la bdd locale
      * @param match
      * @return
      */
-    public boolean addData(NewMatch match){
-        Log.d(TAG, db.toString());
+    public long addData(NewMatch match){
+        //Log.d(TAG, db.toString());
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(COL2, match.getJoueur1());
@@ -79,15 +83,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         Log.d(TAG, "Adding data to " + TABLE_NAME);
 
-        long result = db.insert(TABLE_NAME, null, contentValues);
+        return db.insert(TABLE_NAME, null, contentValues);
+    }
 
-        Log.d(TAG, this.getTableAsString());
+    public void addDataFirebase(NewMatch match, DatabaseReference mReference){
+        //mReference.child("NewMatch").push();
+        mReference = mReference.child("NewMatch");
 
-        if(result == -1){
-            return false;
-        } else{
-            return true;
-        }
+        mReference.child("Joueur1").push().setValue(match.getJoueur1());
+        mReference.child("Joueur2").push().setValue(match.getJoueur2());
+        mReference.child("Adresse").push().setValue(match.getAdresse());
+        mReference.child("Type").push().setValue(match.getType());
+        mReference.child("Date").push().setValue(match.getDate());
+        mReference.child("Image").push().setValue(match.getImageLink());
+        mReference.child("Latitude").push().setValue(match.getLatitude());
+        mReference.child("Longitude").push().setValue(match.getLongitude());
     }
 
     /**
