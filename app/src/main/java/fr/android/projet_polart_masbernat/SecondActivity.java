@@ -34,6 +34,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -65,8 +68,9 @@ public class SecondActivity extends AppCompatActivity implements LocationListene
     private LocationManager locationManager;
     private String provider;
 
-    DatabaseHelper mDatabaseHelper;
-    NewMatch match;
+    private DatabaseHelper mDatabaseHelper;
+    private DatabaseReference mDatabase;
+    private NewMatch match;
 
     private static final String TAG = "SecondActivity";
 
@@ -343,5 +347,10 @@ public class SecondActivity extends AppCompatActivity implements LocationListene
     public void onProviderDisabled(String provider) {
         Toast.makeText(this, "Disabled provider " + provider,
                 Toast.LENGTH_SHORT).show();
+    }
+
+    //////////////// FIREBASE //////////////
+    public void writeMatchFirebase(){
+
     }
 }
